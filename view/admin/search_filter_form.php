@@ -5,8 +5,10 @@
         <select name="filter" id="filter" class="form-select">
             <option value="all">All Users</option>
             <option value="student">Students</option>
+            <option value="teacher">Teachers</option>
+            <option value="instructor">Instructors</option>
             <option value="staff">Staffs</option>
-            <option value="administrator">Admins</option>
+            <option value="admin">Admins</option>
         </select>
     </form>
 

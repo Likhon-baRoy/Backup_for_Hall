@@ -35,7 +35,10 @@ error_reporting(E_ALL);
                 <img src="../../assets/img/spinner.gif" alt="Loading..." />
             </div>
 
-            <!-- Load User Table -->
+            <!-- Load Approved User Table -->
+            <?php include 'user_table.php'; ?>
+
+            <!-- Load Waitlist User Table -->
             <?php include 'pending_user_table.php'; ?>
         </div>
     </div>
