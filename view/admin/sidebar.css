@@ -1,33 +1,19 @@
-<div class="sidebar">
-  <h2>ADMIN</h2>
-  <ul class="nav flex-column">
-    <li><a href="dashboard.php" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
-    <li><a href="pending_user_table.php"><i class="fas fa-user-clock"></i> Waitlist Users</a></li>
-    <li><a href="user_table.php"><i class="fas fa-users"></i> Approved Users</a></li>
-    <li><a href="../../controller/admin/manage_university_info.php"><i class="fas fa-university"></i> Manage University Info</a></li>
-    <li><a href="../../controller/admin/manage_hall_rooms.php"><i class="fas fa-door-open"></i> Manage Hall Rooms</a></li>
-    <li><a href="#"><i class="fas fa-utensils"></i> Dining</a></li>
-    <li><a href="#"><i class="fas fa-bed"></i> Rooms</a></li>
-    <li><a href="#"><i class="fas fa-exclamation-triangle"></i> Facilities Problem</a></li>
-    <li><a href="#"><i class="fas fa-envelope"></i> Messages</a></li>
-    <li><a href="../../controller/auth/logout.php"><i class="fas fa-sign-out-alt"></i> Log Out</a></li>
-  </ul>
-</div>
-<style>
+/* General Styling */
+html, body {
+    height: 100%;
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+}
+
 .sidebar {
     width: 250px;
     background: linear-gradient(to bottom, #006064, #26c6da);
-    padding-top: 70px;         /* Accounts for the header height */
-    padding-left: 15px;
-    padding-right: 15px;
-    position: fixed;          /* Fix it to the left side */
-    top: 60px;
-    left: 0;
-    height: 100vh;            /* Full viewport height */
+    padding: 20px 15px;
+    position: sticky;
+    top: 0;
+    height: 100vh;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-    overflow-y: auto;         /* Enables scrolling for longer lists */
-    z-index: 10;              /* Ensure it layers properly with other elements */
-    transition: all 0.3s ease; /* Smooth transition for resizing */
+    overflow-y: auto;
 }
 
 .sidebar h2 {
@@ -88,6 +74,12 @@
     background: #00251a;
 }
 
+.dashboard {
+    margin-left: 260px;
+    padding: 20px;
+    background: #f5f5f5;
+}
+
 /* For Responsive Design */
 @media (max-width: 768px) {
     .sidebar {
@@ -102,7 +94,11 @@
     }
 
     .dashboard {
-        margin-left: 200px;
+        margin-left: 250px; /* Adjusted to match the sidebar width */
+        padding: 20px;
+        height: 100vh; /* Full viewport height to ensure the content aligns vertically */
+        overflow-y: auto; /* Adds scrolling if the content exceeds the viewport height */
+        box-sizing: border-box; /* Ensures padding doesn't increase the width/height */
     }
 
     .menu-toggle {
@@ -119,4 +115,30 @@
         cursor: pointer;
     }
 }
-</style>
+
+/* CSV export button style section */
+.export-btn-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    margin-bottom: 30px;
+}
+
+.export-btn {
+    padding: 10px 20px;
+    border: 2px solid #28a745;
+    border-radius: 30px;
+    background-color: transparent;
+    color: #28a745;
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.export-btn:hover {
+    background-color: #28a745;
+    color: #fff;
+    text-decoration: none;
+}

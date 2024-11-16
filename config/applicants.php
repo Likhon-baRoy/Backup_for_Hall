@@ -3,8 +3,8 @@
 include("config.php");
 
 // Drop the table if it exists to avoid duplicate errors
-$drop_table = "DROP TABLE IF EXISTS applicants";
-mysqli_query($myconnect, $drop_table);
+// $drop_table = "DROP TABLE IF EXISTS applicants";
+// mysqli_query($myconnect, $drop_table);
 
 // Create the applicants table
 $tbl_applicants = "CREATE TABLE IF NOT EXISTS applicants (
