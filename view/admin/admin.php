@@ -5,6 +5,10 @@ include '../../config/config.php';
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
+
+// Initialize status variable here
+$status = isset($_GET['status']) ? $_GET['status'] : 'approved';
+$status = ($status === 'pending') ? 'pending' : 'approved';
 ?>
 
 <!DOCTYPE html>
@@ -16,13 +20,10 @@ error_reporting(E_ALL);
     <link rel="stylesheet" href="../../assets/css/admin.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> <!-- jQuery library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 <body>
     <div class="d-flex both">
-        <!-- Sidebar -->
-        <?php include 'sidebar.php'; ?>
-
         <!-- Dashboard Content -->
         <div class="dashboard container">
             <h1 class="text-center">Dormitory User Management</h1>
@@ -39,6 +40,11 @@ error_reporting(E_ALL);
             <?php include 'user_table.php'; ?>
         </div>
     </div>
+
+    <!-- Pass status to JavaScript -->
+    <script>
+        const currentStatus = '<?php echo $status; ?>';
+    </script>
 
     <!-- JavaScript to load data dynamically with AJAX -->
     <script src="../../assets/js/admin.js"></script>

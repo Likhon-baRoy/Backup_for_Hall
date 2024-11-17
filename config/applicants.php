@@ -2,11 +2,7 @@
 // Include the database configuration file to connect to the database
 include("config.php");
 
-// Drop the table if it exists to avoid duplicate errors
-// $drop_table = "DROP TABLE IF EXISTS applicants";
-// mysqli_query($myconnect, $drop_table);
-
-// Create the applicants table
+// Create the applicants table with timestamps
 $tbl_applicants = "CREATE TABLE IF NOT EXISTS applicants (
     uid INT(11) NOT NULL UNIQUE,             -- Unique user ID provided during signup
     username VARCHAR(30) NOT NULL UNIQUE,    -- Unique username
@@ -27,6 +23,8 @@ $tbl_applicants = "CREATE TABLE IF NOT EXISTS applicants (
     room VARCHAR(15) DEFAULT NULL,           -- Room number assigned upon approval
     hall VARCHAR(50) DEFAULT NULL,           -- Hall name assigned upon approval
     seat VARCHAR(15) DEFAULT NULL,           -- Seat number assigned upon approval
+    applied_timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Automatically records when application is submitted
+    approved_timestamp TIMESTAMP NULL DEFAULT NULL,        -- Will be set automatically when approved
     PRIMARY KEY (uid)
 )";
 

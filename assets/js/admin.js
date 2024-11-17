@@ -1,12 +1,26 @@
-function loadTable(page = 1, status = 'approved') {
-    // Get filter and search values, with null checks for elements
-    const filter = $('#filter').length ? $('#filter').val() : '';
-    const search = $('input[name="search"]').length ? $('input[name="search"]').val() : '';
+let currentSortDir = 'DESC';
+let currentPage = 1;
+let pageSize = 3;
+
+function loadTable(page = 1) {
+    const filter = $('#filter').val() || 'all';
+    const search = $('input[name="search"]').val() || '';
+    currentPage = page;
+
+    // Show loading spinner
+    $('#loading-spinner').show();
 
     $.ajax({
         url: '../../controller/admin/fetch_user.php',
         method: 'GET',
-        data: { filter, search, page, status },
+        data: {
+            filter,
+            search,
+            page,
+            limit: pageSize,
+            status: currentStatus, // Using the status from PHP
+            sortDir: currentSortDir
+        },
         dataType: 'json',
         success: function(response) {
             if (response.error) {
@@ -14,75 +28,162 @@ function loadTable(page = 1, status = 'approved') {
                 return;
             }
 
-            const userTableBody = $('#user-table-body');
-            userTableBody.empty(); // Clear previous data
-
-            if (response.users && response.users.length > 0) {
-                // Populate table with user data
-                response.users.forEach(user => {
-                    const actionButtons = (status === 'pending')
-                          ? `<button onclick="approveApplicant(${user.uid})" class="btn btn-success">Approve</button>
-                           <button onclick="rejectApplicant(${user.uid})" class="btn btn-danger">Reject</button>`
-                          : `<a href='edit.php?id=${user.uid}' class='btn btn-warning'>Edit</a>
-                           <a href='delete.php?id=${user.uid}' class='btn btn-danger' onclick="return confirmAction('delete')">Delete</a>`;
-
-                    userTableBody.append(`
-                        <tr>
-                            <td>${user.uid}</td>
-                            <td>${user.username}</td>
-                            <td>${user.email}</td>
-                            <td>${user.phone}</td>
-                            <td>${user.role}</td>
-                            <td>${actionButtons}</td>
-                        </tr>
-                    `);
-                });
-            } else {
-                userTableBody.append(`
-                    <tr>
-                        <td colspan="6" class="text-center">No users found.</td>
-                    </tr>
-                `);
-            }
-
-            // Update pagination
-            updatePagination(response.pagination.currentPage, response.pagination.totalPages, status);
+            updateTable(response.users);
+            updatePagination(response.pagination.currentPage, response.pagination.totalPages);
+            updateResultsInfo(
+                response.pagination.currentResults,
+                response.pagination.totalResults
+            );
         },
         error: function(xhr, status, error) {
             console.error("AJAX Error:", status, error);
             alert("An error occurred while loading data. Please try again.");
+        },
+        complete: function() {
+            // Hide loading spinner
+            $('#loading-spinner').hide();
         }
     });
 }
 
-// Pagination function to dynamically create pagination buttons
-function updatePagination(currentPage, totalPages, status) {
-    const pagination = $('#pagination');
-    pagination.empty();
+function updateTable(users) {
+    const userTableBody = $('#user-table-body');
+    userTableBody.empty();
 
-    for (let i = 1; i <= totalPages; i++) {
-        pagination.append(`
-            <button class="btn ${i === currentPage ? 'btn-primary' : 'btn-outline-primary'}"
-                onclick="loadTable(${i}, '${status}')">${i}</button>
+    if (users && users.length > 0) {
+        users.forEach(user => {
+            const actionButtons = (currentStatus === 'pending')
+                  ? `<button onclick="approveApplicant(${user.uid})" class="btn btn-success btn-sm">
+                     <i class="fas fa-check me-1"></i>Approve
+                   </button>
+                   <button onclick="rejectApplicant(${user.uid})" class="btn btn-danger btn-sm ms-1">
+                     <i class="fas fa-times me-1"></i>Reject
+                   </button>`
+                  : `<button onclick="editUser(${user.uid})" class="btn btn-warning btn-sm">
+                     <i class="fas fa-edit me-1"></i>Edit
+                   </button>
+                   <button onclick="deleteUser(${user.uid})" class="btn btn-danger btn-sm ms-1">
+                     <i class="fas fa-trash me-1"></i>Delete
+                   </button>`;
+
+            userTableBody.append(`
+                <tr>
+                    <td>${user.uid}</td>
+                    <td>${user.username}</td>
+                    <td>${user.email}</td>
+                    <td>${user.phone}</td>
+                    <td><span class="badge bg-secondary">${user.role}</span></td>
+                    <td>${user.formatted_timestamp}</td>
+                    <td>${actionButtons}</td>
+                </tr>
+            `);
+        });
+    } else {
+        userTableBody.append(`
+            <tr>
+                <td colspan="7" class="text-center">
+                    <div class="p-3">
+                        <i class="fas fa-search me-2"></i>No users found
+                    </div>
+                </td>
+            </tr>
         `);
     }
 }
 
-// Initialize the table and set up event listeners
+function updatePagination(currentPage, totalPages) {
+    const pagination = $('#pagination');
+    pagination.empty();
+
+    // Add pagination container
+    const paginationHtml = `
+        <nav aria-label="Page navigation">
+            <ul class="pagination mb-0">
+                <li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
+                    <button class="page-link" onclick="loadTable(1)" ${currentPage === 1 ? 'disabled' : ''}>
+                        <i class="fas fa-angle-double-left"></i>
+                    </button>
+                </li>
+                <li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
+                    <button class="page-link" onclick="loadTable(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>
+                        <i class="fas fa-angle-left"></i>
+                    </button>
+                </li>`;
+
+    pagination.append(paginationHtml);
+
+    // Add numbered pages
+    for (let i = Math.max(1, currentPage - 2); i <= Math.min(totalPages, currentPage + 2); i++) {
+        pagination.find('ul').append(`
+            <li class="page-item ${i === currentPage ? 'active' : ''}">
+                <button class="page-link" onclick="loadTable(${i})">${i}</button>
+            </li>
+        `);
+    }
+
+    // Add next and last buttons
+    pagination.find('ul').append(`
+        <li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
+            <button class="page-link" onclick="loadTable(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>
+                <i class="fas fa-angle-right"></i>
+            </button>
+        </li>
+        <li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
+            <button class="page-link" onclick="loadTable(${totalPages})" ${currentPage === totalPages ? 'disabled' : ''}>
+                <i class="fas fa-angle-double-right"></i>
+            </button>
+        </li>
+    `);
+}
+
+function updateResultsInfo(currentResults, totalResults) {
+    $('#currentResults').text(currentResults);
+    $('#totalResults').text(totalResults);
+    $('#currentPage').text(currentPage);
+    $('#totalPages').text(Math.ceil(totalResults / pageSize));
+}
+
+// Event handlers
 $(document).ready(function() {
-    // Determine the status based on the header content
-    const isPending = $('h2').text().includes('Pending');
-    const status = isPending ? 'pending' : 'approved';
+    // Initial load
+    loadTable(1);
 
-    // Load initial table data based on the page's purpose
-    loadTable(1, status);
-
-    // Event listeners for filter and search input
-    $('#filter').on('change', function() {
-        loadTable(1, status); // Reload table on filter change
+    // Sort toggle
+    $('#sortToggle').on('click', function() {
+        currentSortDir = currentSortDir === 'DESC' ? 'ASC' : 'DESC';
+        const arrow = currentSortDir === 'DESC' ? '↓' : '↑';
+        const timeType = currentStatus === 'pending' ? 'Application' : 'Approval';
+        $('.sort-text').text(`${timeType} Time ${arrow}`);
+        loadTable(1);
     });
 
-    $('input[name="search"]').on('keyup', function() {
-        loadTable(1, status); // Reload table on search input
+    // Search input with debounce
+    let searchTimeout;
+    $('input[name="search"]').on('input', function() {
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(() => {
+            loadTable(1);
+        }, 300);
+    });
+
+    // Role filter
+    $('#filter').on('change', function() {
+        loadTable(1);
+    });
+
+    // Page size
+    $('#pageSize').on('change', function() {
+        pageSize = parseInt($(this).val());
+        loadTable(1);
+    });
+
+    // Clear filters
+    $('#clearFilters').on('click', function() {
+        $('input[name="search"]').val('');
+        $('#filter').val('all');
+        currentSortDir = 'DESC';
+        const timeType = currentStatus === 'pending' ? 'Application' : 'Approval';
+        $('.sort-text').text(`${timeType} Time ↓`);
+        loadTable(1);
     });
 });

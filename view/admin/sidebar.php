@@ -2,12 +2,11 @@
   <h2>ADMIN</h2>
   <ul class="nav flex-column">
     <li><a href="dashboard.php" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
-    <li><a href="pending_user_table.php"><i class="fas fa-user-clock"></i> Waitlist Users</a></li>
     <li><a href="user_table.php"><i class="fas fa-users"></i> Approved Users</a></li>
-    <li><a href="../../controller/admin/manage_university_info.php"><i class="fas fa-university"></i> Manage University Info</a></li>
-    <li><a href="../../controller/admin/manage_hall_rooms.php"><i class="fas fa-door-open"></i> Manage Hall Rooms</a></li>
+    <li><a href="pending_user_table.php"><i class="fas fa-user-clock"></i> Waitlist Users</a></li>
+    <li><a href="../../controller/admin/manage_university_info.php"><i class="fas fa-university"></i> University Info</a></li>
+    <li><a href="../../controller/admin/manage_hall_rooms.php"><i class="fas fa-door-open"></i> Manage Halls</a></li>
     <li><a href="#"><i class="fas fa-utensils"></i> Dining</a></li>
-    <li><a href="#"><i class="fas fa-bed"></i> Rooms</a></li>
     <li><a href="#"><i class="fas fa-exclamation-triangle"></i> Facilities Problem</a></li>
     <li><a href="#"><i class="fas fa-envelope"></i> Messages</a></li>
     <li><a href="../../controller/auth/logout.php"><i class="fas fa-sign-out-alt"></i> Log Out</a></li>
