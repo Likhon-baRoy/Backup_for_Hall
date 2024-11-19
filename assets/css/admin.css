@@ -84,3 +84,10 @@ body {
 .table th, .table td {
     padding: 15px; /* Adds more space between text and borders */
 }
+/* .both { */
+/*     margin-left: 260px; */
+/*     /\* padding-left: 260px; *\/ */
+/* } */
+.main-content {
+    padding-left: 260px;
+}

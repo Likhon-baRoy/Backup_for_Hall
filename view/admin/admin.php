@@ -16,28 +16,31 @@ $status = ($status === 'pending') ? 'pending' : 'approved';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin-Panel Management System</title>
+    <title>Admin Panel Homepage</title>
     <link rel="stylesheet" href="../../assets/css/admin.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
 </head>
 <body>
-    <div class="d-flex both">
-        <!-- Dashboard Content -->
-        <div class="dashboard container">
-            <h1 class="text-center">Dormitory User Management</h1>
+    <header class="floating-header admin-header">
+        <?php include 'admin_header.php'; ?>
+    </header>
 
-            <!-- Filter Selection and Search Bar -->
-            <?php include 'search_filter_form.php'; ?>
+    <!-- Sidebar -->
+    <?php include 'sidebar.php'; ?>
 
-            <!-- Loading Spinner -->
-            <div id="loading-spinner" style="display:none;">
-                <img src="../../assets/img/spinner.gif" alt="Loading..." />
-            </div>
+    <div class="main-content">
+        <!-- Filter Selection and Search Bar -->
+        <?php include 'search_filter_form.php'; ?>
 
-            <!-- Load User Table -->
-            <?php include 'user_table.php'; ?>
+        <!-- Loading Spinner -->
+        <div id="loading-spinner" style="display:none;">
+            <img src="../../assets/img/spinner.gif" alt="Loading..." />
+        </div>
+
+        <!-- Load User Table -->
+        <?php include 'user_table.php'; ?>
         </div>
     </div>
 

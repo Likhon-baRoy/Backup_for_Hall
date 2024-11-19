@@ -34,7 +34,7 @@ session_start();
             background-color: #4CAF50;
             color: white;
             border-radius: 50%;
-            padding: 10px;
+          padding: 10px;
         }
         /* Tooltip dropdown */
         .dropdown-menu {
@@ -81,7 +81,20 @@ session_start();
         .hidden {
             opacity: 0;
         }
-    </style>
+
+.tnb-right-section .tnb-signup-btn {
+  position: relative;
+  width: 93px;
+  height: 40px;
+  top: 50%;
+  margin-top: -20px;
+  border-radius: 25px;
+  margin-right: -39px;
+  font-size: 16px;
+  line-height: 1.5;
+  z-index: 5;
+}
+   </style>
     <script>
         function toggleDropdown() {
             const dropdown = document.getElementById('dropdownMenu');
@@ -113,22 +126,13 @@ session_start();
 <?php endif; ?>
 
 <div class="header">
-    <?php if (isset($_SESSION['user_id'])): ?>
-        <!-- Profile icon and dropdown for logged-in users -->
-        <div class="profile-container">
-            <div class="profile-icon" onclick="toggleDropdown()">👤</div>
-            <div id="dropdownMenu" class="dropdown-menu">
-                <a href="view/dashboard.php"><span class="icon">🏠</span>Dashboard</a>
-                <a href="view/notifications.php"><span class="icon">🔔</span>Notifications</a>
-                <a href="view/profile.php"><span class="icon">👤</span>Profile</a>
-                <a href="view/profile_settings.php"><span class="icon">⚙️</span>Settings</a>
-                <a href="view/logout.php"><span class="icon">🚪</span>Logout</a>
-            </div>
-        </div>
-    <?php else: ?>
         <!-- Login/Signup link for guests -->
-        <a href="login.html" class="login-link">Login / Signup</a>
-    <?php endif; ?>
+        <a href="https://profile.w3schools.com/log-in?redirect_url=https%3A%2F%2Fwww.w3schools.com%2F" class="user-anonymous tnb-login-btn w3-bar-item w3-btn bar-item-hover w3-right ws-light-green ga-top ga-top-login" title="Login to your account" aria-label="Login to your account">
+        Log in
+      </a>
+        <a href="https://profile.w3schools.com/sign-up?redirect_url=https%3A%2F%2Fwww.w3schools.com%2F" class="user-anonymous tnb-signup-btn w3-bar-item w3-button w3-right ws-green ws-hover-green ga-top ga-top-signup" title="Sign Up to Improve Your Learning Experience" aria-label="Sign Up to Improve Your Learning Experience">
+        Sign Up
+      </a>
 </div>
 
 <div class="content">
