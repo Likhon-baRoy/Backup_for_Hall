@@ -30,6 +30,7 @@
                         <option value="student">Student</option>
                         <option value="teacher">Teacher</option>
                         <option value="staff">Staff</option>
+                        <option value="admin">Admin</option>
                         <option value="instructor">Instructor</option>
                     </select>
                 </div>
