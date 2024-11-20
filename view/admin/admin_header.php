@@ -15,6 +15,7 @@
                 <i class="fas fa-user"></i> Profile
             </a>
             <div class="dropdown-content">
+                <a href="../../public/index.php">Homepage</a>
                 <a href="#">Settings</a>
                 <a href="#">Logout</a>
             </div>
