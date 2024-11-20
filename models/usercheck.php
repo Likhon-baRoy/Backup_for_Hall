@@ -34,7 +34,7 @@ if (!$stmt->execute()) {
             $_SESSION['role'] = $user['role'];
 
             // Redirect to index page
-            header("Location: ../public/index.html");
+            header("Location: ../public/index.php");
             exit();
         } else {
             // Incorrect password
