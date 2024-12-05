@@ -46,6 +46,47 @@ function loadTable(page = 1) {
     });
 }
 
+function approveApplicant(uid) {
+    // Prompt for room, hall, and seat details
+    const room = prompt("Enter room number:");
+    const hall = prompt("Enter hall name:");
+    const seat = prompt("Enter seat number:");
+
+    if (!room || !hall || !seat) {
+        alert("All details are required to approve the applicant.");
+        return;
+    }
+
+    // Show loading indicator
+    $('#loading-spinner').show();
+
+    $.ajax({
+        url: '../../controller/auth/approve_applicants.php',
+        method: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify({
+            uid: uid,
+            room: room,
+            hall: hall,
+            seat: seat
+        }),
+        success: function(response) {
+            if (response.status === 'success') {
+                alert("Applicant approved successfully. Approval email sent.");
+                loadTable(currentPage);  // Reload current page
+            } else {
+                alert("Error: " + response.message);
+            }
+        },
+        error: function(xhr) {
+            alert("An error occurred while approving the applicant.");
+        },
+        complete: function() {
+            $('#loading-spinner').hide();
+        }
+    });
+}
+
 function updateTable(users) {
     const userTableBody = $('#user-table-body');
     userTableBody.empty();

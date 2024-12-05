@@ -19,7 +19,7 @@ $tbl_applicants = "CREATE TABLE IF NOT EXISTS applicants (
     password VARCHAR(255) NOT NULL,          -- Encrypted password
     role ENUM('student', 'teacher', 'staff', 'instructor', 'admin') NOT NULL, -- User role
     department ENUM('CSE', 'EEE', 'CE', 'ME', 'BBA', 'LLB', 'TEX', 'Pharmacy', 'English', 'Other') DEFAULT NULL, -- Department for students/teachers
-    application_status ENUM('pending', 'approved', 'rejected') DEFAULT 'pending', -- Application status
+    application_status ENUM('pending', 'pending_confirmation', 'approved', 'rejected') DEFAULT 'pending', -- Application status
     room VARCHAR(15) DEFAULT NULL,           -- Room number assigned upon approval
     hall VARCHAR(50) DEFAULT NULL,           -- Hall name assigned upon approval
     seat VARCHAR(15) DEFAULT NULL,           -- Seat number assigned upon approval
