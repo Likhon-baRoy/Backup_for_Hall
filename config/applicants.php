@@ -25,6 +25,8 @@ $tbl_applicants = "CREATE TABLE IF NOT EXISTS applicants (
     seat VARCHAR(15) DEFAULT NULL,           -- Seat number assigned upon approval
     applied_timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Automatically records when application is submitted
     approved_timestamp TIMESTAMP NULL DEFAULT NULL,        -- Will be set automatically when approved
+    rejected_timestamp TIMESTAMP NULL DEFAULT NULL,        -- Will be set automatically when rejected
+    rejection_reason TEXT NULL DEFAULT NULL,               -- Admin have to give reson for rejection
     PRIMARY KEY (uid)
 )";
 

@@ -7,6 +7,6 @@ $message = htmlspecialchars($_GET['message'] ?? "An error occurred. Please try a
 <body>
     <h1>Error</h1>
     <p><?php echo $message; ?></p>
-    <a href="/contact_support.php">Contact Support</a>
+    <a href="../contact_support.php">Contact Support</a>
 </body>
 </html>
